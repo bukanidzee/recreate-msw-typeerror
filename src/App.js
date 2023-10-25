@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+import { Navigate, Outlet, Route, Routes } from 'react-router-dom'
+import About from './pages/About'
+import { useSelector } from 'react-redux'
+import Login from './pages/Login'
 
-function App() {
+export default function App() {
+  const name = useSelector((state) => state.user.name)
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Routes>
+      <Route element={name !== '' ? <Outlet /> : <Navigate to="/login" />}>
+        <Route path="/" element={<About />} />
+      </Route>
+      <Route element={name === '' ? <Outlet /> : <Navigate to="/" />}>
+        <Route path="/login" element={<Login />} />
+      </Route>
+    </Routes>
+  )
 }
-
-export default App;

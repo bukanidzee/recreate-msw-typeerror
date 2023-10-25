@@ -4,16 +4,18 @@ import { useLoginMutation } from '../store/appApi'
 export default function Login() {
   const { register, handleSubmit } = useForm()
 
-  const [login] = useLoginMutation()
+  const [login, { data, error }] = useLoginMutation()
+
+  console.log({ data, error })
 
   const onSubmit = async (data) => {
     await login(data)
   }
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
-      <label for="name-field">Name</label>
+      <label htmlFor="name-field">Name</label>
       <input id="name-field" {...register('name', { required: true })} />
-      <label for="password-field">Password</label>
+      <label htmlFor="password-field">Password</label>
       <input
         id="password-field"
         {...register('password', { required: true })}
